@@ -9,10 +9,8 @@ func main() {
 
 	fmt.Print("Revenue: ")
 	fmt.Scan(&revenue)
-
 	fmt.Print("Expenses: ")
 	fmt.Scan(&expenses)
-
 	fmt.Print("Tax Rate: ")
 	fmt.Scan(&taxRate)
 
@@ -20,7 +18,7 @@ func main() {
 	earningsAfterTax := earningsBeforeTax * (1 - taxRate/100)
 	ratio := earningsBeforeTax / earningsAfterTax
 
-	fmt.Println("Earnings Before Tax:", earningsBeforeTax)
-	fmt.Println("Earnings After Tax:", earningsAfterTax)
-	fmt.Println("Earning Ratio:", ratio)
+	fmt.Printf("Earnings Before Tax: %.0f\n", earningsBeforeTax)
+	fmt.Printf("Earnings After Tax: %.0f\n", earningsAfterTax)
+	fmt.Printf("Earning Ratio: %.0f\n", ratio)
 }
