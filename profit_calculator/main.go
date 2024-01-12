@@ -1,17 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"os"
+)
 
 func main() {
 	revenue := getInput("Revenue: ")
 	expenses := getInput("Expenses ")
 	taxRate := getInput("Tax Rate: ")
 
-	ebt, eat, ratio := calculateEarnings(revenue, expenses, taxRate)
+	ebt, eat, ratio, err := calculateEarnings(revenue, expenses, taxRate)
 
-	fmt.Printf("Earnings Before Tax: %.0f\n", ebt)
-	fmt.Printf("Earnings After Tax: %.0f\n", eat)
-	fmt.Printf("Earning Ratio: %.2f\n", ratio)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	saveResultsToFile(ebt, eat, ratio)
 }
 
 func getInput(text string) (input float64) {
@@ -20,9 +27,21 @@ func getInput(text string) (input float64) {
 	return input
 }
 
-func calculateEarnings(revenue, expenses, taxRate float64) (ebt, eat, ratio float64) {
+func calculateEarnings(revenue, expenses, taxRate float64) (ebt float64, eat float64, ratio float64, err error) {
+
+	if revenue <= 0 || expenses <= 0 || taxRate <= 0 {
+		return ebt, eat, ratio, errors.New("Invalid input. All values must be greater than 0.")
+	}
+
 	ebt = revenue - expenses
 	eat = ebt * (1 - taxRate/100)
 	ratio = ebt / eat
-	return ebt, eat, ratio
+
+	return ebt, eat, ratio, err
+}
+
+func saveResultsToFile(ebt, eat, ratio float64) {
+	stringToOutput := fmt.Sprintf("EBT: %.0f\nEAT: %.0f\nRatio: %.2f", ebt, eat, ratio)
+	os.WriteFile("results.txt", []byte(stringToOutput), 0644)
+	fmt.Println("Results saved to results.txt")
 }
