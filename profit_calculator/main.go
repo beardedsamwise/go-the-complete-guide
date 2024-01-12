@@ -28,7 +28,6 @@ func getInput(text string) (input float64) {
 }
 
 func calculateEarnings(revenue, expenses, taxRate float64) (ebt float64, eat float64, ratio float64, err error) {
-
 	if revenue <= 0 || expenses <= 0 || taxRate <= 0 {
 		return ebt, eat, ratio, errors.New("Invalid input. All values must be greater than 0.")
 	}
